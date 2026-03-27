@@ -34,6 +34,52 @@
 | ESTP | Entrepreneur | Bold doers who thrive in action. Live for excitement, adapt quickly, persuasive negotiators. |
 | ESFP | Entertainer | Spontaneous, energetic performers. Fun at parties, enthusiastic, charm and charisma. |
 
+---
+
+## Cognitive Function Stacks
+
+Each MBTI type uses a specific "stack" of cognitive functions in order of preference:
+- **Dominant (Dom)**: Your strongest, most natural function
+- **Auxiliary (Aux)**: Supports the dominant, provides balance
+- **Tertiary (Tert)**: Less developed, emerges later in life
+- **Inferior (Inf)**: Weakest area, source of stress and growth potential
+
+### The 8 Cognitive Functions
+
+| Function | Code | Description |
+|----------|------|-------------|
+| Introverted Intuition | Ni | Deep insights, pattern recognition, future-focused visions |
+| Extraverted Intuition | Ne | Explores possibilities, connections, brainstorming, divergent thinking |
+| Introverted Sensing | Si | Detailed memory, past experiences, traditions, reliability |
+| Extraverted Sensing | Se | Present-moment awareness, sensory details, action-oriented |
+| Introverted Thinking | Ti | Internal logic, precision, analytical frameworks |
+| Extraverted Thinking | Te | External organization, efficiency, objective standards |
+| Introverted Feeling | Fi | Personal values, authenticity, inner emotional world |
+| Extraverted Feeling | Fe | Social harmony, others' emotions, group dynamics |
+
+### Type Function Stacks
+
+| Type | Dominant | Auxiliary | Tertiary | Inferior |
+|------|----------|-----------|----------|----------|
+| INTJ | Ni | Te | Fi | Se |
+| INTP | Ti | Ne | Si | Fe |
+| ENTJ | Te | Ni | Se | Fi |
+| ENTP | Ne | Ti | Fe | Si |
+| INFJ | Ni | Fe | Ti | Se |
+| INFP | Fi | Ne | Si | Te |
+| ENFJ | Fe | Ni | Se | Ti |
+| ENFP | Ne | Fi | Te | Si |
+| ISTJ | Si | Te | Fi | Ne |
+| ISFJ | Si | Fe | Ti | Ne |
+| ESTJ | Te | Si | Ne | Fi |
+| ESFJ | Fe | Si | Ne | Ti |
+| ISTP | Ti | Se | Ni | Fe |
+| ISFP | Fi | Se | Ni | Te |
+| ESTP | Se | Ti | Fe | Ni |
+| ESFP | Se | Fi | Te | Ni |
+
+---
+
 ## Dimension Definitions
 
 ### EI — Extraversion vs Introversion
@@ -83,3 +129,92 @@ Strong preferences indicate deeply ingrained patterns. The person's behavior wil
 | ISFP | Tact, attention to sensory detail, flexibility | Long-term commitments, assertiveness | Arts, healthcare, design |
 | ESTP | Real-time problem-solving, boldness | Reflection, sensitive listening | Sales, business, finance |
 | ESFP | Social energy, adaptability, practical | Long-term focus, comfort with solitude | Hospitality, sales, entertainment |
+
+---
+
+## Relationship Compatibility Matrix
+
+Compatibility is influenced by shared cognitive functions and complementary differences. This matrix shows general compatibility patterns (not absolute rules).
+
+### Compatibility Legend
+- ⭐⭐⭐⭐ Excellent: Often deeply compatible, share key functions
+- ⭐⭐⭐ Good: Natural understanding, some complementary differences
+- ⭐⭐ Moderate: Workable with effort, different approaches
+- ⭐ Challenging: Significant differences, requires patience and understanding
+
+### Quick Compatibility Patterns
+
+| Your Type | Best Matches | Good Matches | Growth Partners |
+|-----------|--------------|--------------|-----------------|
+| INTJ | ENTP, ENFP | INTP, ENTJ | ESFP, ISFP |
+| INTP | ENTJ, ENFJ | INTJ, ENTP | ESFJ, ISFJ |
+| ENTJ | INTP, INFP | INTJ, ENTP | ISFP, ESFP |
+| ENTP | INTJ, INFJ | INTP, ENTJ | ISFJ, ESFJ |
+| INFJ | ENTP, ENFP | INFP, INTJ | ESTP, ISTP |
+| INFP | ENTJ, ENFJ | INFJ, ENFP | ESTJ, ISTJ |
+| ENFJ | INTP, INFP | INFJ, ENFP | ISTP, ESTP |
+| ENFP | INTJ, INFJ | ENFJ, ENTP | ISTJ, ESTJ |
+| ISTJ | ESTP, ESFP | ISFJ, ESTJ | ENFP, INFP |
+| ISFJ | ESTP, ESFP | ISTJ, ESFJ | ENTP, INTP |
+| ESTJ | ISTP, ISFP | ISTJ, ESFJ | INFP, ENFP |
+| ESFJ | ISTP, ISFP | ISFJ, ESTJ | INTP, ENTP |
+| ISTP | ESTJ, ESFJ | ESTP, ISTJ | ENFJ, INFJ |
+| ISFP | ESTJ, ENTJ | ESFP, ISFJ | ENTJ, INTJ |
+| ESTP | ISTJ, ISFJ | ISTP, ESFP | INFJ, ENFJ |
+| ESFP | ISTJ, ISFJ | ESTP, ISFP | INTJ, ENTJ |
+
+### Why These Pairings Work
+
+**Ideal Matches (Golden Pairs)**:
+- Share the same middle two letters (S/N and T/F) but differ on E/I and J/P
+- Examples: INTJ-ENTP, INFJ-ENFP, ISTJ-ESTP
+
+**Pedagogical Pairs (Growth Partners)**:
+- Opposite types that challenge each other to grow
+- Examples: INTJ-ESFP, INFJ-ESTP
+- Requires maturity and mutual respect to thrive
+
+---
+
+## Communication Style Notes
+
+### By Type
+
+| Type | Communication Style | Tips for Communicating With |
+|------|--------------------|-----------------------------|
+| INTJ | Direct, analytical, values competence | Be logical, skip small talk, respect their time |
+| INTP | Precise, curious, exploratory | Give space to think, welcome tangents, be accurate |
+| ENTJ | Assertive, decisive, goal-oriented | Be efficient, come prepared, match their energy |
+| ENTP | Playful debates, idea-focused, quick | Engage intellectually, don't take arguments personally |
+| INFJ | Thoughtful, meaningful, reserved | Show genuine interest, allow processing time |
+| INFP | Authentic, values-driven, empathetic | Be sincere, avoid harsh criticism, honor their feelings |
+| ENFJ | Warm, encouraging, people-focused | Show appreciation, be open emotionally |
+| ENFP | Enthusiastic, creative, possibility-focused | Be energetic, explore ideas together, stay positive |
+| ISTJ | Factual, structured, reliable | Be clear, provide details, follow through |
+| ISFJ | Supportive, practical, loyal | Show gratitude, be consistent, acknowledge their efforts |
+| ESTJ | Clear, direct, organized | Be punctual, respect hierarchy, state facts |
+| ESFJ | Friendly, harmonious, attentive | Be warm, avoid conflict, show consideration |
+| ISTP | Concise, practical, action-oriented | Keep it brief, respect independence, focus on doing |
+| ISFP | Gentle, reserved, authentic | Be patient, non-judgmental, share experiences |
+| ESTP | Dynamic, direct, results-focused | Be active, keep pace, get to the point |
+| ESFP | Lively, spontaneous, engaging | Be fun, stay positive, join in activities |
+
+### Communication Dimension Patterns
+
+**E vs I**:
+- **E**: Thinks out loud, processes externally, energized by discussion
+- **I**: Reflects before speaking, prefers one-on-one, needs time to formulate thoughts
+
+**S vs N**:
+- **S**: Wants concrete examples, step-by-step details, practical applications
+- **N**: Prefers concepts, big picture, theoretical implications
+
+**T vs F**:
+- **T**: Values logic, objectivity, may seem detached (but cares in their way)
+- **F**: Values harmony, personal impact, may prioritize relationships over facts
+
+**J vs P**:
+- **J**: Appreciates agendas, closure, clear decisions
+- **P**: Prefers flexibility, exploration, keeping options open
+
+---
