@@ -51,6 +51,11 @@ def calculate_dimension_scores(answers: list[int]) -> DimensionScores:
     }
 
 
+def _letter(score: float, poles: tuple[str, str]) -> str:
+    """score > 0.5 → first pole, otherwise second pole"""
+    return poles[0] if score > 0.5 else poles[1]
+
+
 def score_to_type(ei: float, sn: float, tf: float, jp: float) -> str:
     """
     Convert four dimension scores (each in [0.0, 1.0]) to a 4-letter
@@ -66,10 +71,6 @@ def score_to_type(ei: float, sn: float, tf: float, jp: float) -> str:
     Returns:
         Uppercase 4-letter MBTI type, e.g. "INTJ".
     """
-    def _letter(score: float, poles: tuple[str, str]) -> str:
-        # score > 0.5 → first pole (E/S/T/J), score <= 0.5 → second pole (I/N/F/P)
-        return poles[0] if score > 0.5 else poles[1]
-
     return (
         _letter(ei, DIMENSION_POLES["EI"])
         + _letter(sn, DIMENSION_POLES["SN"])

@@ -62,7 +62,8 @@ def _load_json_input(args: argparse.Namespace) -> dict[str, Any]:
         if args.json_file == "-":
             raw = sys.stdin.read()
         else:
-            raw = open(args.json_file, encoding="utf-8").read()
+            with open(args.json_file, encoding="utf-8") as f:
+                raw = f.read()
         return json.loads(raw)
 
     if args.json:

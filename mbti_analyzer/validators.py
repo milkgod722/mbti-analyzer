@@ -114,14 +114,16 @@ def validate_answers(raw_answers: Any) -> ValidatedAnswers:
     for i, raw in enumerate(answers):
         try:
             val = int(raw)
-        except (ValueError, TypeError) as exc:
+        except (ValueError, TypeError):
             warnings.append(f"Q{i + 1}: {raw!r} (not a number, skipped)")
             continue
 
-        if val < MIN_ANSWER_VALUE or val > MAX_ANSWER_VALUE:
-            clamped = max(MIN_ANSWER_VALUE, min(MAX_ANSWER_VALUE, val))
-            warnings.append(f"Q{i + 1}: {val} (clamped to {clamped})")
-            validated.append(clamped)
+        if val < MIN_ANSWER_VALUE:
+            warnings.append(f"Q{i + 1}: {val} (clamped to {MIN_ANSWER_VALUE})")
+            validated.append(MIN_ANSWER_VALUE)
+        elif val > MAX_ANSWER_VALUE:
+            warnings.append(f"Q{i + 1}: {val} (clamped to {MAX_ANSWER_VALUE})")
+            validated.append(MAX_ANSWER_VALUE)
         else:
             validated.append(val)
 
