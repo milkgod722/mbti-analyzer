@@ -3,13 +3,14 @@ Input validation — MBTI type strings and questionnaire answer lists.
 """
 
 import sys
-from typing import Any, Final
+from typing import Any
 
 from mbti_analyzer.config import (
     VALID_MBTI_TYPES,
     MIN_ANSWER_VALUE,
     MAX_ANSWER_VALUE,
     EXPECTED_ANSWER_COUNT,
+    NEUTRAL_ANSWER_VALUE,
     DIMENSION_POLES,
 )
 
@@ -69,15 +70,72 @@ def validate_mbti_type(mbti: Any) -> str:
 
 # Internal type alias for a validated answer list
 ValidatedAnswers = list[int]
+ValidatedScores = dict[str, float]
+
+
+def validate_scores(raw_scores: Any) -> ValidatedScores:
+    """
+    Validate optional pre-computed dimension scores.
+
+    Args:
+        raw_scores: Mapping expected to contain EI/SN/TF/JP scores in [0.0, 1.0].
+
+    Returns:
+        A normalized dict with float values for each dimension.
+
+    Raises:
+        ValidationError: If the mapping shape or values are invalid.
+    """
+    if not isinstance(raw_scores, dict) or not raw_scores:
+        raise ValidationError(
+            "Scores must be a non-empty object with EI, SN, TF, and JP values.",
+            suggestion="Provide scores like {\"EI\": 0.15, \"SN\": 0.85, \"TF\": 0.2, \"JP\": 0.9}.",
+        )
+
+    expected_keys = tuple(DIMENSION_POLES.keys())
+    missing = [key for key in expected_keys if key not in raw_scores]
+    unexpected = [key for key in raw_scores if key not in DIMENSION_POLES]
+
+    if missing or unexpected:
+        parts: list[str] = []
+        if missing:
+            parts.append(f"missing {', '.join(missing)}")
+        if unexpected:
+            parts.append(f"unexpected {', '.join(unexpected)}")
+        raise ValidationError(
+            f"Scores object must contain exactly EI, SN, TF, and JP ({'; '.join(parts)}).",
+            suggestion="Use exactly these keys: EI, SN, TF, JP.",
+        )
+
+    validated: ValidatedScores = {}
+    for dim_key in expected_keys:
+        raw_value = raw_scores[dim_key]
+        try:
+            value = float(raw_value)
+        except (TypeError, ValueError) as exc:
+            raise ValidationError(
+                f"Score '{dim_key}' must be numeric, got {raw_value!r}.",
+                suggestion="Each dimension score must be a number between 0.0 and 1.0.",
+            ) from exc
+
+        if not 0.0 <= value <= 1.0:
+            raise ValidationError(
+                f"Score '{dim_key}' must be between 0.0 and 1.0, got {value}.",
+                suggestion="Keep every dimension score within the inclusive range 0.0-1.0.",
+            )
+
+        validated[dim_key] = value
+
+    return validated
 
 
 def validate_answers(raw_answers: Any) -> ValidatedAnswers:
     """
     Validate a list of questionnaire answers.
 
-    Accepts fewer than 40 answers (raises error), but silently truncates
-    answers beyond 40. Non-integer or out-of-range values are clamped
-    with a warning printed to stderr.
+    Accepts fewer than 40 answers (raises error), but truncates answers
+    beyond 40. Non-numeric values are replaced with a neutral answer and
+    out-of-range values are clamped, with a warning printed to stderr.
 
     Args:
         raw_answers: A list (or iterable) of answer values.
@@ -115,7 +173,10 @@ def validate_answers(raw_answers: Any) -> ValidatedAnswers:
         try:
             val = int(raw)
         except (ValueError, TypeError):
-            warnings.append(f"Q{i + 1}: {raw!r} (not a number, skipped)")
+            warnings.append(
+                f"Q{i + 1}: {raw!r} (not a number, replaced with {NEUTRAL_ANSWER_VALUE})"
+            )
+            validated.append(NEUTRAL_ANSWER_VALUE)
             continue
 
         if val < MIN_ANSWER_VALUE:

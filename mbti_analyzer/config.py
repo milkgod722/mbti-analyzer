@@ -9,6 +9,7 @@ MIN_ANSWER_VALUE: int = 1
 MAX_ANSWER_VALUE: int = 5
 EXPECTED_ANSWER_COUNT: int = 40
 QUESTIONS_PER_DIMENSION: int = 10
+NEUTRAL_ANSWER_VALUE: int = 3
 
 # ---------------------------------------------------------------------------
 # Dimension strength thresholds (distance from 0.5 midpoint)

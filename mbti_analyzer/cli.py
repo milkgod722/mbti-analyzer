@@ -72,12 +72,55 @@ def _load_json_input(args: argparse.Namespace) -> dict[str, Any]:
     return {}
 
 
+def analyze_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    """Analyze a JSON payload used by the CLI wrapper interfaces."""
+    if not isinstance(payload, dict):
+        raise ValidationError(
+            f"JSON input must be an object, got {type(payload).__name__}.",
+            suggestion="Provide an object like {\"type\": \"INTJ\"} or {\"answers\": [...]}",
+        )
+
+    if "answers" in payload:
+        return analyze_answers(payload["answers"])
+    if "type" in payload:
+        return analyze_type(payload["type"], payload.get("scores"))
+
+    raise ValidationError(
+        "Missing input.",
+        suggestion="Provide 'type' or 'answers' in the JSON payload.",
+    )
+
+
+def build_error_payload(exc: Exception) -> dict[str, Any]:
+    """Convert known exceptions into stable JSON error payloads."""
+    if isinstance(exc, ValidationError):
+        error_payload: dict[str, Any] = {
+            "error": "Validation error",
+            "message": exc.message,
+        }
+        if exc.suggestion:
+            error_payload["suggestion"] = exc.suggestion
+        return error_payload
+
+    if isinstance(exc, json.JSONDecodeError):
+        return {
+            "error": "Invalid JSON input",
+            "message": str(exc),
+        }
+
+    return {
+        "error": "Unexpected error",
+        "message": str(exc),
+        "type": type(exc).__name__,
+    }
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = _build_parser()
     args = parser.parse_args(argv)
 
     # Determine output mode
-    pretty = not args.no_pretty and sys.stdout.isatty()
+    pretty = not args.no_pretty and not args.json_output and sys.stdout.isatty()
     indent = 2 if pretty else None
 
     # Build the result
@@ -90,32 +133,9 @@ def main(argv: list[str] | None = None) -> int:
         elif args.answers:
             result = analyze_answers(args.answers)
         else:
-            inp = _load_json_input(args)
-            if "answers" in inp:
-                result = analyze_answers(inp["answers"])
-            elif "type" in inp:
-                result = analyze_type(inp["type"], inp.get("scores"))
-            else:
-                error_payload = {
-                    "error": "Missing input",
-                    "usage": "Provide --type MBTI, --answers 40 scores, "
-                             "or --json '{\"type\": \"...\"}'",
-                }
-
-    except ValidationError as exc:
-        error_payload = {
-            "error": "Validation error",
-            "message": exc.message,
-        }
-        if hasattr(exc, "suggestion") and exc.suggestion:  # type: ignore[attr-defined]
-            error_payload["suggestion"] = exc.suggestion  # type: ignore[attr-defined]
-
+            result = analyze_payload(_load_json_input(args))
     except Exception as exc:
-        error_payload = {
-            "error": "Unexpected error",
-            "message": str(exc),
-            "type": type(exc).__name__,
-        }
+        error_payload = build_error_payload(exc)
 
     output = error_payload if error_payload else result
     if output is None:

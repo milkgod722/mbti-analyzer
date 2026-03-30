@@ -9,6 +9,7 @@ from mbti_analyzer import (
     ValidationError,
     validate_mbti_type,
     validate_answers,
+    validate_scores,
     calculate_dimension_scores,
     score_to_type,
     infer_scores_from_type,
@@ -123,6 +124,28 @@ class TestValidateAnswers:
         result = validate_answers(answers)
         captured = capsys.readouterr()
         assert "Warning" in captured.err or "adjustment" in captured.err
+        assert len(result) == 40
+        assert result[-1] == 3
+
+
+# ---------------------------------------------------------------------------
+# validate_scores
+# ---------------------------------------------------------------------------
+
+class TestValidateScores:
+    def test_valid_scores_are_normalized(self):
+        scores = validate_scores({"EI": 0.15, "SN": 1, "TF": "0.85", "JP": 0.5})
+        assert scores == {"EI": 0.15, "SN": 1.0, "TF": 0.85, "JP": 0.5}
+
+    def test_missing_dimension_raises(self):
+        with pytest.raises(ValidationError) as exc_info:
+            validate_scores({"EI": 0.1, "SN": 0.2, "TF": 0.3})
+        assert "exactly EI, SN, TF, and JP" in str(exc_info.value)
+
+    def test_out_of_range_dimension_raises(self):
+        with pytest.raises(ValidationError) as exc_info:
+            validate_scores({"EI": 1.2, "SN": 0.2, "TF": 0.3, "JP": 0.4})
+        assert "between 0.0 and 1.0" in str(exc_info.value)
 
 
 # ---------------------------------------------------------------------------
@@ -301,6 +324,14 @@ class TestAnalyzeType:
             analyze_type("XXXX")
         msg = str(exc_info.value)
         assert "Position 1" in msg and ("must be" in msg or "not 'X'" in msg)
+
+    def test_custom_scores_are_validated(self):
+        report = analyze_type("INTJ", scores={"EI": 0.1, "SN": 0.2, "TF": 0.9, "JP": 0.95})
+        assert report["dimensions"]["EI"]["percentage"] == 10
+
+    def test_custom_scores_missing_dimension_raises(self):
+        with pytest.raises(ValidationError):
+            analyze_type("INTJ", scores={"EI": 0.1, "SN": 0.2, "TF": 0.9})
 
 
 # ---------------------------------------------------------------------------

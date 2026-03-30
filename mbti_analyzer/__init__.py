@@ -13,7 +13,12 @@ from mbti_analyzer.config import (
     MAX_ANSWER_VALUE,
     QUESTIONS_PER_DIMENSION,
 )
-from mbti_analyzer.validators import ValidationError, validate_mbti_type, validate_answers
+from mbti_analyzer.validators import (
+    ValidationError,
+    validate_mbti_type,
+    validate_answers,
+    validate_scores,
+)
 from mbti_analyzer.calculator import (
     calculate_dimension_scores,
     score_to_type,
@@ -38,6 +43,7 @@ __all__ = [
     "ValidationError",
     "validate_mbti_type",
     "validate_answers",
+    "validate_scores",
     # calculator
     "calculate_dimension_scores",
     "score_to_type",

@@ -14,8 +14,9 @@ MBTI 人格测试分析与报告生成 Skill，支持 OpenClaw 等 Agent。
 ```
 mbti-analyzer/
 ├── SKILL.md                      # Skill 入口说明
+├── mbti_analyzer/               # 核心分析包
 ├── scripts/
-│   └── analyze_mbti.py          # 核心分析引擎
+│   └── analyze_mbti.py          # 向后兼容的 stdin JSON 包装脚本
 ├── references/
 │   └── mbti_types.md            # 16 型人格详解 + 职业倾向表
 └── assets/
@@ -82,6 +83,7 @@ cp -r mbti-analyzer /path/to/workspace/skills/
 - **分析维度**：EI（外向/内向）、SN（感觉/直觉）、TF（思考/情感）、JP（判断/知觉）
 - **评分规则**：每维度取前 10 题，选项 >3 记为该侧偏好，计算百分比
 - **中度偏好**：40-60% 区间为中等偏好，报告将注明适应性说明
+- **输入归一化**：超过 40 题会截断；非数字答案会替换为中性值 `3`；超出 1-5 的分数会自动夹紧到合法范围
 - **依赖**：Python 3，无第三方依赖
 
 ## License

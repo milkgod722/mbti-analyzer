@@ -2,13 +2,20 @@
 Score calculation — answer scoring and MBTI type derivation.
 """
 
-from typing import TypedDict
+from typing import Optional, TypedDict
 
 from mbti_analyzer.config import (
     DIMENSION_POLES,
-    MODERATE_DIMENSION_THRESHOLD,
     DEFAULT_LETTER_SCORE,
     DEFAULT_OPPOSITE_SCORE,
+    QUESTIONS_PER_DIMENSION,
+)
+from mbti_analyzer.formatter import AnalysisReport, build_report
+from mbti_analyzer.validators import (
+    ValidatedScores,
+    validate_answers,
+    validate_mbti_type,
+    validate_scores,
 )
 
 
@@ -43,12 +50,12 @@ def calculate_dimension_scores(answers: list[int]) -> DimensionScores:
         total = sum((a - 1) / 4 for a in segment)
         return total / len(segment)
 
-    return {
-        "EI": _score_dim(answers[0:10]),
-        "SN": _score_dim(answers[10:20]),
-        "TF": _score_dim(answers[20:30]),
-        "JP": _score_dim(answers[30:40]),
-    }
+    dimension_scores: DimensionScores = {"EI": 0.0, "SN": 0.0, "TF": 0.0, "JP": 0.0}
+    for index, dim_key in enumerate(("EI", "SN", "TF", "JP")):
+        start = index * QUESTIONS_PER_DIMENSION
+        end = start + QUESTIONS_PER_DIMENSION
+        dimension_scores[dim_key] = _score_dim(answers[start:end])
+    return dimension_scores
 
 
 def _letter(score: float, poles: tuple[str, str]) -> str:
@@ -105,17 +112,7 @@ def infer_scores_from_type(mbti: str) -> DimensionScores:
     return scores
 
 
-# ---------------------------------------------------------------------------
-# High-level analysis API
-# ---------------------------------------------------------------------------
-
-from typing import Optional
-
-from mbti_analyzer.validators import validate_mbti_type, validate_answers
-from mbti_analyzer.formatter import build_report
-
-
-def analyze_answers(answers: list[int]) -> dict:
+def analyze_answers(answers: list[int]) -> AnalysisReport:
     """
     Analyze raw MBTI questionnaire answers.
 
@@ -131,7 +128,10 @@ def analyze_answers(answers: list[int]) -> dict:
     return build_report(mbti, scores)
 
 
-def analyze_type(mbti: str, scores: Optional[dict] = None) -> dict:
+def analyze_type(
+    mbti: str,
+    scores: Optional[dict[str, float]] = None,
+) -> AnalysisReport:
     """
     Analyze a given MBTI type string.
 
@@ -144,10 +144,12 @@ def analyze_type(mbti: str, scores: Optional[dict] = None) -> dict:
     """
     mbti = validate_mbti_type(mbti)
 
+    validated_scores: ValidatedScores
     if scores is None:
-        scores = infer_scores_from_type(mbti)
+        validated_scores = infer_scores_from_type(mbti)
+    else:
+        validated_scores = validate_scores(scores)
 
-    return build_report(mbti, scores)
-
+    return build_report(mbti, validated_scores)
 
 
